@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SimpleThreadingDemo
 {
@@ -8,13 +9,15 @@ namespace SimpleThreadingDemo
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            ThreadStart threadStart = new ThreadStart(Counting);
-            Thread thread = new Thread(threadStart);
-            Thread thread2 = new Thread(threadStart);
-            thread.Start();
-            thread2.Start();
-            thread.Join();
-            thread2.Join();
+            Task task = new Task(() => Counting());
+            Task task2 = new Task(() => Counting());
+
+            task.Start();
+            task2.Start();
+            task.Wait();
+            task2.Wait();
+
+
         }
 
         static void Counting()
