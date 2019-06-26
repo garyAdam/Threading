@@ -8,6 +8,7 @@ namespace SingleInstance
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
             Mutex mutex = null;
             const string name = "RUNMEONLYONCE";
             while (true)

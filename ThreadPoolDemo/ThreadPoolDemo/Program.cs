@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ThreadPoolDemo
 {
@@ -8,12 +9,15 @@ namespace ThreadPoolDemo
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            WaitCallback waitCallback = new WaitCallback(ShowMyText);
-            ThreadPool.QueueUserWorkItem(waitCallback,"lol ");
-            ThreadPool.QueueUserWorkItem(waitCallback,"lol2 ");
-            ThreadPool.QueueUserWorkItem(waitCallback,"lol3 ");
-            ThreadPool.QueueUserWorkItem(waitCallback,"lol4 ");
-            Thread.Sleep(1000);
+            WaitCallback waitCallback = ShowMyText;
+
+            Task[] taskArray = new Task[10];
+            for (int i = 0; i < taskArray.Length; i++)
+            {
+                taskArray[i] = Task.Factory.StartNew((Object state) => waitCallback(state), $"lol{i}: ");
+            }
+            Task.WaitAll(taskArray);
+
         }
 
 
